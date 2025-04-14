@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Oracles of Survival</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Georgia', serif;
+      background: url('img/stars.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 960px;
+      height: 200px;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.75);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      margin-bottom: 10vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .text {
+      font-size: 1.5rem;
+      line-height: 1.6;
+      overflow-y: auto;
+    }
+
+    .controls {
+      margin-top: 10px;
+    }
+
+    .controls button {
+      padding: 10px 20px;
+      margin: 0 8px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .controls button:hover {
+      background-color: #555;
+    }
+
+    .choice-btn {
+      font-size: 1.2rem;
+      padding: 14px 28px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #4a4a4a;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .choice-btn:hover {
+      background-color: #666;
+    }
+
+    .menu-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+    }
+
+    .menu-btn button {
+      padding: 8px 14px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .menu-btn button:hover {
+      background-color: rgba(80, 80, 80, 0.8);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="menu-btn">
+    <button onclick="goToIndex()">☰ Menu</button>
+  </div>  
+  <div class="container">
+    <div id="content" class="text"></div>
+    <div class="controls">
+      <button onclick="prevPage()">&larr; Back</button>
+      <button onclick="nextPage()">Next &rarr;</button>
+    </div>
+  </div>
+
+  <script>
+    const pages = [
+      "<strong style='font-size:2.5rem;'>Oracles of Survival</strong>",
+      "All I could hear was thunder. Not from the sky, nor from the wind—but from the screams of gods and the shattering of starlight as the divine realm crumbled.",
+      "My name? I couldn’t recall. It was stripped away the moment I fell between worlds.",
+      "All I remembered was a gentle, weary god holding me close, whispering an ancient spell into my ear.",
+      "\"With mortal flesh, seal divinity in blood and bone… the spell is incomplete… irreversible…\"",
+      "I fell from his arms into the human world, my body writhing—reshaping itself with searing pain.",
+      "Then, everything faded into darkness.",
+      "...When I opened my eyes again, I was lying on a worn-out couch in a crumbling apartment. The air reeked of mold and grease. Outside the window, unfamiliar city lights flickered.",
+      "Something felt strange about my body—not pain, but a softness and delicacy that didn’t belong to me.",
+      "I forced myself up and walked to the mirror.\n—The reflection staring back at me was a girl.",
+      "\"...Who am I?\" I murmured.",
+      "A voice echoed—his final words: \"The spell was incomplete… Your form will be unstable… Sometimes you will be he, other times she… until you learn what it means to be human.\"",
+      "A glowing icon appeared midair—some kind of divine interface: <br><strong>[Current Objective: Survive, and learn how to use your human body.]</strong>",
+      "I glanced at the dusty calendar pinned to the wall. <br>Today was Day 1 of my life as a human.",
+
+      // ---- Chapter 1: Start ----
+      "<strong style='font-size:2rem;'>Episode 1: Not Everything is Edible</strong>",
+      "I was awakened by the growling in my stomach at dawn.",
+      "I stumbled to the kitchen cupboard and found a blue liquid bottle, a white powder bag, and a carton labeled “Milk.”",
+      "I sipped the liquid from the blue bottle—and my throat burned instantly, my eyes watering uncontrollably.",
+      "I was rushed to the hospital, where a doctor scolded me—“That was laundry detergent!”",
+      "You have unlocked <strong>[Human Digestive System Entry]</strong>.",
+
+      // Choice page (interactive)
+      "Choose your next move:<br><br>" +
+      "<button onclick='choosePath(0)' class='choice-btn'> Search for food vs. non-food</button><br>" +
+      "<button onclick='choosePath(1)' class='choice-btn'> Steal roommate’s food</button>"
+    ];
+
+    const episode1Outcomes = [
+      "You carefully examined labels and learned the difference between food and cleaning supplies.<br><strong>Knowledge +1</strong>.",
+      "You sneaked into the fridge and ate your roommate’s leftovers.<br>He found out. You were publicly shamed in the group chat.<br><strong>Social Trust -1</strong>."
+    ];
+
+    const indexPage = `
+      <strong style='font-size:2rem;'>📚 Table of Contents</strong><br><br>
+      <button onclick='goToPage(0)' class='choice-btn'>🏠 Title Page</button><br>
+      <button onclick='goToPage(14)' class='choice-btn'>📖 Episode 1: Not Everything is Edible</button>
+    `;
+
+    let currentPage = 0;
+    let lastChoicePage = null;
+
+    function renderPage() {
+      document.getElementById('content').innerHTML = pages[currentPage];
+    }
+
+    function nextPage() {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        renderPage();
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 0) {
+        // Handle back from choice outcome
+        if (lastChoicePage !== null && currentPage === pages.length - 1) {
+          currentPage = lastChoicePage;
+          lastChoicePage = null;
+        } else {
+          currentPage--;
+        }
+        renderPage();
+      }
+    }
+
+    function choosePath(choiceIndex) {
+      lastChoicePage = currentPage;
+      pages.push(episode1Outcomes[choiceIndex]);
+      currentPage = pages.length - 1;
+      renderPage();
+    }
+
+    function goToIndex() {
+      const content = `
+        <strong style='font-size:2rem;'>📚 Table of Contents</strong><br><br>
+        <button onclick='goToPage(0)' class='choice-btn'>🏠 Title Page</button><br>
+        <button onclick='goToPage(14)' class='choice-btn'>📖 Episode 1: Not Everything is Edible</button>
+      `;
+      document.getElementById('content').innerHTML = content;
+    }
+
+
+    function goToPage(pageNumber) {
+      currentPage = pageNumber;
+      renderPage();
+    }
+
+    // Initial render
+    renderPage();
+  </script>
+</body>
+</html>
