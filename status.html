@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Player Status</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Georgia', serif;
+      background: url('img/stars.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .status-box {
+      background-color: rgba(255, 255, 255, 0.85);
+      color: #333;
+      padding: 30px;
+      border-radius: 16px;
+      text-align: center;
+      min-width: 300px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .stat-line {
+      font-size: 1.3rem;
+      margin: 10px 0;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #333;
+      color: white;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="status-box">
+    <h1>🧠 Player Stats</h1>
+    <div id="statsDisplay"></div>
+    <button onclick="history.back()">⬅️ Return</button>
+  </div>
+
+  <script>
+    const defaultStats = {
+      health: 5,
+      mood: 5,
+      energy: 5,
+      discipline: 5,
+      stamina: 5,
+      willpower: 5,
+      socialTrust: 5,
+      knowledge: 5,
+      form: "undecided",
+      hiddenQuestUnlocked: false
+    };
+
+    function initStats() {
+      if (!localStorage.getItem("playerStats")) {
+        localStorage.setItem("playerStats", JSON.stringify(defaultStats));
+      }
+    }
+
+    function renderStats() {
+      const stats = JSON.parse(localStorage.getItem("playerStats"));
+      let html = "";
+      for (let key in stats) {
+        const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
+        html += `<div class="stat-line"><strong>${label}:</strong> ${stats[key]}</div>`;
+      }
+      document.getElementById("statsDisplay").innerHTML = html;
+    }
+
+    initStats();
+    renderStats();
+  </script>
+</body>
+</html>
