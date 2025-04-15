@@ -63,15 +63,15 @@
       margin: 10px;
       border: none;
       border-radius: 10px;
-      background-color: #4a4a4a;
-      color: white;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #333;
       cursor: pointer;
       transition: background-color 0.3s;
     }
-
     .choice-btn:hover {
-      background-color: #666;
+      background-color: #eee;
     }
+
 
     .menu-btn {
       position: fixed;
@@ -95,18 +95,61 @@
       background-color: rgba(80, 80, 80, 0.8);
     }
 
+    .title-page {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 1100px;
+      width: 90%;
+      padding: 30px;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      text-align: center;
+    }
+
+
+    .title-page .text {
+      font-size: 5rem;
+      font-weight: bold;
+      line-height: 1.1;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+
   </style>
 </head>
 <body>
   <div class="menu-btn">
     <button onclick="goToIndex()">☰ Menu</button>
   </div>  
-  <div class="container">
-    <div id="content" class="text"></div>
-    <div class="controls">
-      <button onclick="prevPage()">&larr; Back</button>
-      <button onclick="nextPage()">Next &rarr;</button>
+
+  <div id="menuPage" style="display:none;">
+    <div style="
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+    ">
+      <h1 style="font-size: 3rem;">📚 Table of Contents</h1>
+      <button class="choice-btn" onclick="goToPage(0)">🏠 Title Page</button><br><br>
+      <button class="choice-btn" onclick="goToPage(14)">📖 Episode 1: Not Everything is Edible</button><br><br>
+      <button class="choice-btn" onclick="closeMenu()">⬅️ Return</button>
     </div>
+  </div>
+  
+
+  <div id="container" class="container">
+    <div id="content" class="text"></div>
+
+    <div class="controls">
+      <button id="backBtn" onclick="prevPage()">&larr; Back</button>
+      <button id="nextBtn" onclick="nextPage()">Next &rarr;</button>
+    </div>
+    
+
   </div>
 
   <script>
@@ -155,8 +198,28 @@
     let lastChoicePage = null;
 
     function renderPage() {
-      document.getElementById('content').innerHTML = pages[currentPage];
+      const contentDiv = document.getElementById('content');
+      const container = document.getElementById('container');
+
+      contentDiv.innerHTML = pages[currentPage];
+
+      // 判断是否是标题页（第0页）
+      const isTitle = currentPage === 0;
+
+      // 控制标题页的样式
+      if (isTitle) {
+        container.classList.add('title-page');
+        document.getElementById('backBtn').style.display = 'none';
+        const nextBtn = document.getElementById('nextBtn');
+        nextBtn.innerText = 'Start';
+      } else {
+        container.classList.remove('title-page');
+        document.getElementById('backBtn').style.display = 'inline-block';
+        document.getElementById('nextBtn').innerText = 'Next →';
+      }
     }
+
+
 
     function nextPage() {
       if (currentPage < pages.length - 1) {
