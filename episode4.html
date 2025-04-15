@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Episode 4 - Workout and Injury</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Georgia', serif;
+      background: url('img/stars.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .menu-link {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+    }
+
+    .menu-link:hover {
+      background-color: rgba(60, 60, 60, 0.9);
+    }
+
+    .container {
+      width: 90%;
+      max-width: 960px;
+      height: 200px;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.75);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      margin-bottom: 10vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .choice-page {
+      height: 320px !important;
+    }
+
+    .text {
+      font-size: 1.5rem;
+      line-height: 1.6;
+      overflow-y: auto;
+    }
+
+    .controls {
+      margin-top: 10px;
+    }
+
+    .controls button {
+      padding: 10px 20px;
+      margin: 0 8px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .controls button:hover {
+      background-color: #555;
+    }
+
+    .choice-btn {
+      font-size: 1.2rem;
+      padding: 14px 28px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #4a4a4a;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .choice-btn:hover {
+      background-color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Menu button -->
+  <a href="menu.html" class="menu-link">☰ Menu</a>
+
+  <!-- Main game container -->
+  <div id="container" class="container">
+    <div id="content" class="text"></div>
+    <div class="controls">
+      <button id="backBtn" onclick="prevPage()">&larr; Back</button>
+      <button id="nextBtn" onclick="nextPage()">Next &rarr;</button>
+    </div>
+  </div>
+
+  <script>
+    const pages = [
+      "<strong style='font-size:2rem;'>Episode 4: Workout and Injury</strong>",
+      "The sun was bright outside. I looked at my slightly flabby reflection and sighed, “Maybe it’s time to start exercising.”",
+      "I opened a video site and searched for “muscle gain tutorial.” A sweaty guy on screen shouted, “One hundred pushups a day—do it for six months and you’ll be a warrior!”",
+      "Without thinking, I copied him. Pushups, sit-ups, squats... My moves were twisted, and my breathing was chaotic.",
+      "Ten minutes later, I collapsed on the floor like a fish. The next morning, my legs wouldn’t move. My waist felt broken.",
+      "You triggered the <strong>“muscle strain”</strong> event. Go to the local clinic.",
+      "The doctor sighed and showed me a diagram: “You keep training like this, you’ll break yourself. Exercise has steps.”",
+      "“First, warm up. Not just toe touches—get your whole body warm, wake up your muscles.”",
+      "“Second, know your limits. Don’t try to be Superman from day one. Start with basics.”",
+      "“Third, form matters. Wrong posture practiced repeatedly leads to injuries.”",
+      "“Fourth, stretch after training. Stretching isn’t optional—it’s protection.”",
+      "I nodded, sweating. The doctor patted my shoulder: “Training is good. But training right is better than training hard.”",
+      // Choices
+      "Choose your next move:<br><br>" +
+      "<button onclick='choosePath(0)' class='choice-btn'> Sign up for beginner fitness class</button><br>" +
+      "<button onclick='choosePath(1)' class='choice-btn'> Keep training solo</button>"
+    ];
+
+    const episode4Outcomes = [
+      "You joined a beginner fitness class. With guidance, you learned the correct movements.<br><strong>Unlocked: Proper Form Guide. +2 Stamina</strong><br><br>You have unlocked <strong>[Basic Exercise Guide]</strong>: Warm-up, Form, Rhythm, Stretching.",
+      "You stubbornly trained alone. Two days later, you pulled a muscle again.<br><strong>-3 Health, -1 Willpower.</strong><br><br>You have unlocked <strong>[Basic Exercise Guide]</strong>: Warm-up, Form, Rhythm, Stretching."
+    ];
+
+    let currentPage = 0;
+    let lastChoicePage = null;
+
+    function renderPage() {
+      const contentDiv = document.getElementById('content');
+      const container = document.getElementById('container');
+
+      contentDiv.innerHTML = pages[currentPage];
+
+      document.getElementById('backBtn').style.display = currentPage === 0 ? 'none' : 'inline-block';
+      document.getElementById('nextBtn').style.display = currentPage < pages.length - 1 ? 'inline-block' : 'none';
+
+      // Enlarged box for options page
+      if (currentPage === 12) {
+        container.classList.add('choice-page');
+      } else {
+        container.classList.remove('choice-page');
+      }
+    }
+
+    function nextPage() {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        renderPage();
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 0) {
+        if (lastChoicePage !== null && currentPage === pages.length - 1) {
+          currentPage = lastChoicePage;
+          lastChoicePage = null;
+        } else {
+          currentPage--;
+        }
+        renderPage();
+      }
+    }
+
+    function choosePath(choiceIndex) {
+      lastChoicePage = currentPage;
+      pages.push(episode4Outcomes[choiceIndex]);
+      currentPage = pages.length - 1;
+      renderPage();
+    }
+
+    renderPage();
+  </script>
+</body>
+</html>

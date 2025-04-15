@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Episode 8 - Choose Your Body</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Georgia', serif;
+      background: url('img/stars.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .menu-link {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+    }
+
+    .menu-link:hover {
+      background-color: rgba(60, 60, 60, 0.9);
+    }
+
+    .container {
+      width: 90%;
+      max-width: 960px;
+      height: 200px;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.75);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      margin-bottom: 10vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .choice-page {
+      height: 320px !important;
+    }
+
+    .text {
+      font-size: 1.5rem;
+      line-height: 1.6;
+      overflow-y: auto;
+    }
+
+    .controls {
+      margin-top: 10px;
+    }
+
+    .controls button {
+      padding: 10px 20px;
+      margin: 0 8px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .controls button:hover {
+      background-color: #555;
+    }
+
+    .choice-btn {
+      font-size: 1.2rem;
+      padding: 14px 28px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #4a4a4a;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .choice-btn:hover {
+      background-color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Menu button -->
+  <a href="menu.html" class="menu-link">☰ Menu</a>
+
+  <!-- Main game container -->
+  <div id="container" class="container">
+    <div id="content" class="text"></div>
+    <div class="controls">
+      <button id="backBtn" onclick="prevPage()">&larr; Back</button>
+      <button id="nextBtn" onclick="nextPage()">Next &rarr;</button>
+    </div>
+  </div>
+
+  <script>
+    const pages = [
+      "<strong style='font-size:2rem;'>Episode 8: Choose Your Body</strong>",
+      "“You’ve done well, child,” a familiar voice echoed in my dream. “Now your body will stabilize. You may choose who you wish to be.”",
+      "In the mirror, I saw myself flickering—one moment him, the next, her.",
+      "But both bled, both cried, both had stories.",
+      "Choose your form:<br><br>" +
+      "<button onclick='choosePath(0)' class='choice-btn'> I choose to be male<br><small>Final form: Male</small></button><br>" +
+      "<button onclick='choosePath(1)' class='choice-btn'> I choose to be female<br><small>Final form: Female</small></button>"
+    ];
+
+    const episode8Outcomes = [
+      "You felt your shape settle. Muscles aligned, voice deepened.<br><strong>Your final form is: Male.</strong><br><br><em>You have completed Chapter 1: Physical Health.<br>Up next: Mental Wellness.</em>",
+      "You felt your form soften and sharpen at once. The mirror no longer flickered.<br><strong>Your final form is: Female.</strong><br><br><em>You have completed Chapter 1: Physical Health.<br>Up next: Mental Wellness.</em>"
+    ];
+
+    let currentPage = 0;
+    let lastChoicePage = null;
+
+    function renderPage() {
+      const contentDiv = document.getElementById('content');
+      const container = document.getElementById('container');
+
+      contentDiv.innerHTML = pages[currentPage];
+
+      document.getElementById('backBtn').style.display = currentPage === 0 ? 'none' : 'inline-block';
+      document.getElementById('nextBtn').style.display = currentPage < pages.length - 1 ? 'inline-block' : 'none';
+
+      if (currentPage === 4) {
+        container.classList.add('choice-page');
+      } else {
+        container.classList.remove('choice-page');
+      }
+    }
+
+    function nextPage() {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        renderPage();
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 0) {
+        if (lastChoicePage !== null && currentPage === pages.length - 1) {
+          currentPage = lastChoicePage;
+          lastChoicePage = null;
+        } else {
+          currentPage--;
+        }
+        renderPage();
+      }
+    }
+
+    function choosePath(choiceIndex) {
+      lastChoicePage = currentPage;
+      pages.push(episode8Outcomes[choiceIndex]);
+      currentPage = pages.length - 1;
+      renderPage();
+    }
+
+    renderPage();
+  </script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Episode 6 - Habit Training Day</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Georgia', serif;
+      background: url('img/stars.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .menu-link {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+    }
+
+    .menu-link:hover {
+      background-color: rgba(60, 60, 60, 0.9);
+    }
+
+    .container {
+      width: 90%;
+      max-width: 960px;
+      height: 200px;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.75);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      margin-bottom: 10vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .choice-page {
+      height: 320px !important;
+    }
+
+    .text {
+      font-size: 1.5rem;
+      line-height: 1.6;
+      overflow-y: auto;
+    }
+
+    .controls {
+      margin-top: 10px;
+    }
+
+    .controls button {
+      padding: 10px 20px;
+      margin: 0 8px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .controls button:hover {
+      background-color: #555;
+    }
+
+    .choice-btn {
+      font-size: 1.2rem;
+      padding: 14px 28px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #4a4a4a;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .choice-btn:hover {
+      background-color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Menu button -->
+  <a href="menu.html" class="menu-link">☰ Menu</a>
+
+  <!-- Main game container -->
+  <div id="container" class="container">
+    <div id="content" class="text"></div>
+    <div class="controls">
+      <button id="backBtn" onclick="prevPage()">&larr; Back</button>
+      <button id="nextBtn" onclick="nextPage()">Next &rarr;</button>
+    </div>
+  </div>
+
+  <script>
+    const pages = [
+      "<strong style='font-size:2rem;'>Episode 6: Habit Training Day</strong>",
+      "I had enough. It was time for a “Total Human Reset.”",
+      "I stuck a schedule on my wall: Sleep early, eat properly, exercise, and shower daily.",
+      "Day one was hard. Day two, harder. But by day three... I kind of liked it?",
+      "You gained <strong>[Discipline +1]</strong> and <strong>[Faster Energy Recovery]</strong>.",
+      "Choose your next move:<br><br>" +
+      "<button onclick='choosePath(0)' class='choice-btn'>📅 Stick with the 7-day challenge<br><small>Earn “Healthy Survivor” title, unlock Chapter 2</small></button><br>" +
+      "<button onclick='choosePath(1)' class='choice-btn'>🛋️ Give up and regress<br><small>-3 Mood, Disappointed Guardian God</small></button>"
+    ];
+
+    const episode6Outcomes = [
+      "You stayed disciplined for seven days straight. The habit stuck.<br><strong>Title earned: “Healthy Survivor.”</strong><br>Chapter 2 unlocked.",
+      "You gave up and fell back into chaos. Your mind suffered.<br><strong>-3 Mood. Your guardian god sighs from afar.</strong>"
+    ];
+
+    let currentPage = 0;
+    let lastChoicePage = null;
+
+    function renderPage() {
+      const contentDiv = document.getElementById('content');
+      const container = document.getElementById('container');
+
+      contentDiv.innerHTML = pages[currentPage];
+
+      document.getElementById('backBtn').style.display = currentPage === 0 ? 'none' : 'inline-block';
+      document.getElementById('nextBtn').style.display = currentPage < pages.length - 1 ? 'inline-block' : 'none';
+
+      if (currentPage === 5) {
+        container.classList.add('choice-page');
+      } else {
+        container.classList.remove('choice-page');
+      }
+    }
+
+    function nextPage() {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        renderPage();
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 0) {
+        if (lastChoicePage !== null && currentPage === pages.length - 1) {
+          currentPage = lastChoicePage;
+          lastChoicePage = null;
+        } else {
+          currentPage--;
+        }
+        renderPage();
+      }
+    }
+
+    function choosePath(choiceIndex) {
+      lastChoicePage = currentPage;
+      pages.push(episode6Outcomes[choiceIndex]);
+      currentPage = pages.length - 1;
+      renderPage();
+    }
+
+    renderPage();
+  </script>
+</body>
+</html>
