@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Table of Contents</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Georgia', serif;
+      background: url('img/stars.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .menu-box {
+      text-align: center;
+    }
+
+    .menu-box h1 {
+      font-size: 3rem;
+      margin-bottom: 40px;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .menu-box a,
+    .menu-box button {
+      display: inline-block;
+      font-size: 1.5rem;
+      margin: 15px;
+      padding: 15px 30px;
+      background-color: rgba(255,255,255,0.95);
+      color: #333;
+      text-decoration: none;
+      border: none;
+      border-radius: 10px;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+
+    .menu-box a:hover,
+    .menu-box button:hover {
+      background-color: #eee;
+    }
+
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 40px;
+      justify-items: center;
+      max-width: 600px;
+      margin: 0 auto 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="menu-box">
+    <h1>📚 Table of Contents</h1>
+
+    <!-- Title page button -->
+    <a href="index.html">🏠 Title Page</a><br><br>
+
+    <!-- Grid layout for chapters -->
+    <div class="chapter-grid">
+      <a href="episode1.html">📖 Episode 1</a>
+      <a href="episode5.html">📖 Episode 5</a>
+
+      <a href="episode2.html">📖 Episode 2</a>
+      <a href="episode6.html">📖 Episode 6</a>
+
+      <a href="episode3.html">📖 Episode 3</a>
+      <a href="episode7.html">📖 Episode 7</a>
+
+      <a href="episode4.html">📖 Episode 4</a>
+      <a href="episode8.html">📖 Episode 8</a>
+    </div>
+
+    <!-- Return button -->
+    <button onclick="history.back()">⬅️ Return</button>
+  </div>
+</body>
+</html>

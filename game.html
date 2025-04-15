@@ -95,6 +95,23 @@
       background-color: rgba(80, 80, 80, 0.8);
     }
 
+    .menu-link {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+    }
+    .menu-link:hover {
+      background-color: rgba(60, 60, 60, 0.9);
+    }
+
+
     .title-page {
       position: absolute;
       top: 50%;
@@ -122,7 +139,7 @@
 </head>
 <body>
   <div class="menu-btn">
-    <button onclick="goToIndex()">☰ Menu</button>
+    <a href="menu.html" class="menu-link">☰ Menu</a>
   </div>  
 
   <div id="menuPage" style="display:none;">
@@ -168,24 +185,13 @@
       "A voice echoed—his final words: \"The spell was incomplete… Your form will be unstable… Sometimes you will be he, other times she… until you learn what it means to be human.\"",
       "A glowing icon appeared midair—some kind of divine interface: <br><strong>[Current Objective: Survive, and learn how to use your human body.]</strong>",
       "I glanced at the dusty calendar pinned to the wall. <br>Today was Day 1 of my life as a human.",
-
-      // ---- Chapter 1: Start ----
-      "<strong style='font-size:2rem;'>Episode 1: Not Everything is Edible</strong>",
-      "I was awakened by the growling in my stomach at dawn.",
-      "I stumbled to the kitchen cupboard and found a blue liquid bottle, a white powder bag, and a carton labeled “Milk.”",
-      "I sipped the liquid from the blue bottle—and my throat burned instantly, my eyes watering uncontrollably.",
-      "I was rushed to the hospital, where a doctor scolded me—“That was laundry detergent!”",
-      "You have unlocked <strong>[Human Digestive System Entry]</strong>.",
-
-      // Choice page (interactive)
-      "Choose your next move:<br><br>" +
-      "<button onclick='choosePath(0)' class='choice-btn'> Search for food vs. non-food</button><br>" +
-      "<button onclick='choosePath(1)' class='choice-btn'> Steal roommate’s food</button>"
+      "<a href='episode1.html' class='choice-btn'>→ Begin Episode 1</a>",
     ];
 
     const episode1Outcomes = [
       "You carefully examined labels and learned the difference between food and cleaning supplies.<br><strong>Knowledge +1</strong>.",
       "You sneaked into the fridge and ate your roommate’s leftovers.<br>He found out. You were publicly shamed in the group chat.<br><strong>Social Trust -1</strong>."
+      
     ];
 
     const indexPage = `

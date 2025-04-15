@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Episode 1 - Not Everything is Edible</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Georgia', serif;
+      background: url('img/stars.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .menu-link {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      text-decoration: none;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 10;
+    }
+
+    .menu-link:hover {
+      background-color: rgba(60, 60, 60, 0.9);
+    }
+
+    .container {
+      width: 90%;
+      max-width: 960px;
+      height: 200px;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.75);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      margin-bottom: 10vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .choice-page {
+      height: 320px !important;
+    }
+
+    .text {
+      font-size: 1.5rem;
+      line-height: 1.6;
+      overflow-y: auto;
+    }
+
+    .controls {
+      margin-top: 10px;
+    }
+
+    .controls button {
+      padding: 10px 20px;
+      margin: 0 8px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .controls button:hover {
+      background-color: #555;
+    }
+
+    .choice-btn {
+      font-size: 1.2rem;
+      padding: 14px 28px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #4a4a4a;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .choice-btn:hover {
+      background-color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Menu button -->
+  <a href="menu.html" class="menu-link">☰ Menu</a>
+
+  <!-- Main game container -->
+  <div id="container" class="container">
+    <div id="content" class="text"></div>
+    <div class="controls">
+      <button id="backBtn" onclick="prevPage()">&larr; Back</button>
+      <button id="nextBtn" onclick="nextPage()">Next &rarr;</button>
+    </div>
+  </div>
+
+  <script>
+    const pages = [
+      "<strong style='font-size:2rem;'>Episode 1: Not Everything is Edible</strong>",
+      "I was awakened by the growling in my stomach at dawn.",
+      "I stumbled to the kitchen cupboard and found a blue liquid bottle, a white powder bag, and a carton labeled “Milk.”",
+      "I sipped the liquid from the blue bottle—and my throat burned instantly, my eyes watering uncontrollably.",
+      "I was rushed to the hospital, where a doctor scolded me—“That was laundry detergent!”",
+      "You have unlocked <strong>[Human Digestive System Entry]</strong>.",
+      // Choices page (index 6)
+      "Choose your next move:<br><br>" +
+      "<button onclick='choosePath(0)' class='choice-btn'> Search for food vs. non-food </button><br>" +
+      "<button onclick='choosePath(1)' class='choice-btn'> Steal roommate’s food </button>"
+    ];
+
+    const episode1Outcomes = [
+      "You carefully examined labels and learned the difference between food and cleaning supplies.<br><strong>Knowledge +1</strong>.",
+      "You sneaked into the fridge and ate your roommate’s leftovers.<br>He found out. You were publicly shamed in the group chat.<br><strong>Social Trust -1</strong>."
+    ];
+
+    let currentPage = 0;
+    let lastChoicePage = null;
+
+    function renderPage() {
+      const contentDiv = document.getElementById('content');
+      const container = document.getElementById('container');
+
+      contentDiv.innerHTML = pages[currentPage];
+
+      // 控制按钮显示
+      document.getElementById('backBtn').style.display = currentPage === 0 ? 'none' : 'inline-block';
+      document.getElementById('nextBtn').style.display = currentPage < pages.length - 1 ? 'inline-block' : 'none';
+
+      // 控制样式：选项页放大框
+      if (currentPage === 6) {
+        container.classList.add('choice-page');
+      } else {
+        container.classList.remove('choice-page');
+      }
+    }
+
+    function nextPage() {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        renderPage();
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 0) {
+        if (lastChoicePage !== null && currentPage === pages.length - 1) {
+          currentPage = lastChoicePage;
+          lastChoicePage = null;
+        } else {
+          currentPage--;
+        }
+        renderPage();
+      }
+    }
+
+    function choosePath(choiceIndex) {
+      lastChoicePage = currentPage;
+      pages.push(episode1Outcomes[choiceIndex]);
+      currentPage = pages.length - 1;
+      renderPage();
+    }
+
+    // Initial render
+    renderPage();
+  </script>
+</body>
+</html>
